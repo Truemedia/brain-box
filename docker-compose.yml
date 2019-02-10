@@ -1,0 +1,14 @@
+version: '3'
+
+networks: fullstack
+
+services:
+  core:
+    image: node:stable-alpine
+    container_name: mindstack_core
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code:/code
+    networks:
+      - fullstack
