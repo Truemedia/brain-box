@@ -1,14 +1,29 @@
 version: '3'
 
-networks: fullstack
+networks:
+  mindstack:
 
 services:
-  core:
-    image: node:stable-alpine
-    container_name: mindstack_core
+  rasa:
+    build:
+        context: .
+        dockerfile: ./docker/rasa/Dockerfile
+
+    container_name: mindstack_rasa
     ports:
-      - "8080:80"
+      - "5000:5000"
     volumes:
-      - ./code:/code
+      - ./projects:/app/projects
     networks:
-      - fullstack
+      - mindstack
+  # core:
+  #   build:
+  #       context: .
+  #       dockerfile: ./docker/nodejs/Dockerfile
+  #   container_name: mindstack_core
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./code:/code
+  #   networks:
+  #     - mindstack
