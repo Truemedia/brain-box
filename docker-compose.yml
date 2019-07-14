@@ -4,18 +4,31 @@ networks:
   mindstack:
 
 services:
-  rasa:
-    build:
-        context: .
-        dockerfile: ./docker/rasa/Dockerfile
-
-    container_name: mindstack_rasa
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./projects:/app/projects
+  js_registry:
+    image: verdaccio/verdaccio
+    container_name: mindstack_registry--js
     networks:
       - mindstack
+    environment:
+      - VERDACCIO_PORT=4873
+    ports:
+      - "4873:4873"
+    # volumes:
+    #   - "./storage:/verdaccio/storage"
+    #   - "./config:/verdaccio/conf"
+    #   - "./plugins:/verdaccio/plugins"
+  # rasa:
+  #   build:
+  #       context: .
+  #       dockerfile: ./docker/rasa/Dockerfile
+  #
+  #   container_name: mindstack_rasa
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./projects:/app/projects
+  #   networks:
+  #     - mindstack
   # core:
   #   build:
   #       context: .
