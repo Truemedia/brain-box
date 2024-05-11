@@ -1,0 +1,8 @@
+# CVA (Computer vision algorithms)
+services:
+  ## Tesseract
+  tesseract:
+    image: hertzg/tesseract-server:latest
+    ports:
+      - 8884:8884
+    
