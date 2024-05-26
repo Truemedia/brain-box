@@ -17,9 +17,9 @@ Symlink env file
   docker-compose up
 ```
 ### Running specialised stacks
-#### NLU
+#### NLU (Rasa)
 ```bash
-  docker-compose -f docker-compose.nlu.yml -f docker-compose.db.yml --env-file config/mongo/.env.example up
+  docker-compose -f docker-compose.nlu.yml -f docker-compose.db.yml -f docker-compose.queue.yml --env-file config/mongo/.env.example up
 ```
 
 ## Scaffold a new rasa project (in /rasa folder)

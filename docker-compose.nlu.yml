@@ -4,7 +4,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/rasa/Dockerfile
-    env_file: config/mongo/.env.example
+    env_file:
+      - config/mongo/.env.example # Mongo credentials
+      - config/rabbitmq/.env.example # RabbitMQ credentials
     ports:
       - 5005:5005
     volumes:
