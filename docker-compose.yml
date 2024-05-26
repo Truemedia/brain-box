@@ -1,34 +1,60 @@
-version: '3'
-
 networks:
   mindstack:
 
 services:
-  js_registry:
-    image: verdaccio/verdaccio
-    container_name: mindstack_registry--js
-    networks:
-      - mindstack
-    environment:
-      - VERDACCIO_PORT=4873
-    ports:
-      - "4873:4873"
+  # Transducers
+  ## Speech brain (Speech to text)
+  # speech_brain:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/speechbrain/Dockerfile
+  #   networks:
+  #     - mindstack
+  # js_registry:
+  #   image: verdaccio/verdaccio
+  #   container_name: mindstack_registry--js
+  #   networks:
+  #     - mindstack
+  #   environment:
+  #     - VERDACCIO_PORT=4873
+  #   ports:
+  #     - "4873:4873"
     # volumes:
     #   - "./storage:/verdaccio/storage"
     #   - "./config:/verdaccio/conf"
     #   - "./plugins:/verdaccio/plugins"
-  # rasa:
-  #   build:
-  #       context: .
-  #       dockerfile: ./docker/rasa/Dockerfile
-  #
-  #   container_name: mindstack_rasa
-  #   ports:
-  #     - "5000:5000"
+  # NLU pipelines
+  ## Ollama (LLM)
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - 11434:11434
+    volumes:
+      - .:/code
+      - ./ollama/ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    networks:
+      - mindstack
+  ## Ollama (Web UI)
+  # ollama-webui:
+  #   image: ghcr.io/open-webui/open-webui:main
+  #   container_name: ollama-webui
   #   volumes:
-  #     - ./projects:/app/projects
+  #     - ./ollama/ollama-webui:/app/backend/data
+  #   depends_on:
+  #     - ollama
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - '/ollama/api=http://ollama:11434/api'
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   restart: unless-stopped
   #   networks:
-  #     - mindstack
+  #     - ollama
   # core:
   #   build:
   #       context: .

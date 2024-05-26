@@ -1,0 +1,13 @@
+services:
+  # Mongo (NoSQL database)
+  mongo:
+    image: "${MONGO_IMAGE}:${MONGO_VERSION}"
+    restart: unless-stopped
+    env_file: config/mongo/.env.example
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    ports:
+      - ${MONGO_INTERNAL_PORT}:${MONGO_EXTERNAL_PORT}
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet

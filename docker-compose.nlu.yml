@@ -1,0 +1,13 @@
+services:  
+  ## RASA (Chatbot)
+  rasa:
+    build:
+      context: .
+      dockerfile: ./docker/rasa/Dockerfile
+    env_file: config/mongo/.env.example
+    ports:
+      - 5005:5005
+    volumes:
+      - ./rasa:/app
+    command:
+      - run
